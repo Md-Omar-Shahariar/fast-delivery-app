@@ -6,6 +6,7 @@ const Footer = () => {
     <footer className="footer footer-horizontal footer-center bg-neutral text-neutral-content p-10">
       <aside>
         <ProFastLogo></ProFastLogo>
+
         <p className="font-bold">
           ACME Industries Ltd.
           <br />
