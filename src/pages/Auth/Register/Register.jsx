@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
-const Login = () => {
+const Register = () => {
   const {
     register,
     handleSubmit,
@@ -12,7 +12,7 @@ const Login = () => {
   return (
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
-        <h1 className="text-center text-3xl">Login</h1>
+        <h1 className="text-center text-3xl">Register</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fieldset">
             <label className="label">Email</label>
@@ -36,16 +36,13 @@ const Login = () => {
                 Password must be at least 6 characters
               </span>
             ) : null}
-            <div>
-              <a className="link link-hover">Forgot password?</a>
-            </div>
-            <button className="btn btn-neutral mt-4">Login</button>
+            <button className="btn btn-neutral mt-4">Register</button>
           </fieldset>
         </form>
         <p className="text-center text-sm text-base-content/70 mt-3">
-          New user?{" "}
-          <Link to="/register" className="link link-primary font-semibold">
-            Create an account
+          Already a user?{" "}
+          <Link to="/login" className="link link-primary font-semibold">
+            Login
           </Link>
         </p>
       </div>
@@ -53,4 +50,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

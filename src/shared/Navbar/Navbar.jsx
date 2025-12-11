@@ -70,7 +70,9 @@ const Navbar = () => {
         >
           {theme === "light" ? <FaMoon /> : <FaSun />}
         </button>
-        <a className="btn">Button</a>
+        <a className="btn" href={"/login"}>
+          Login
+        </a>
       </div>
     </div>
   );
