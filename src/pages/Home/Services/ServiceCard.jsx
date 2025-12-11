@@ -3,7 +3,7 @@ export default function ServiceCard({ service }) {
   const { icon, title, desc, className } = service;
   return (
     <div
-      className={`card bg-base-100 shadow hover:shadow-lg transition-all duration-200 ${className}`}
+      className={`card bg-base-100/95 border border-base-300/80 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-200 backdrop-blur ${className}`}
     >
       <div className="card-body items-center text-center">
         {icon && <div className="mb-3 text-primary text-3xl">{icon}</div>}

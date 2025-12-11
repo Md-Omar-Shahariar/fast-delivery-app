@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import ProFastLogo from "../ProFastLogo/ProfastLogo";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const Navbar = () => {
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light"
+  );
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+
   const NavItems = (
     <>
       <li>
@@ -42,14 +55,21 @@ const Navbar = () => {
             {NavItems}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">
+        <a className="text-xl">
           <ProFastLogo />
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{NavItems}</ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end gap-2">
+        <button
+          onClick={toggleTheme}
+          className="btn btn-ghost btn-circle border border-base-300/80"
+          aria-label="Toggle theme"
+        >
+          {theme === "light" ? <FaMoon /> : <FaSun />}
+        </button>
         <a className="btn">Button</a>
       </div>
     </div>
