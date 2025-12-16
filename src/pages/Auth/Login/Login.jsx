@@ -1,15 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import { useAuth } from "../../../hooks/useAuth";
 
 const Login = () => {
+  const { signInUser, user } = useAuth();
+  const [authError, setAuthError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    setAuthError("");
+    const { email, password } = data;
+    signInUser(email, password)
+      .then(() => {
+        navigate(from, { replace: true });
+      })
+      .catch((error) => setAuthError(error?.message || "Login failed"));
+  };
+
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, from]);
   return (
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
@@ -37,6 +57,9 @@ const Login = () => {
                 Password must be at least 6 characters
               </span>
             ) : null}
+            {authError && (
+              <span className="text-red-500 text-sm">{authError}</span>
+            )}
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>

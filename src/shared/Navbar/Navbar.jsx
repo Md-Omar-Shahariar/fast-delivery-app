@@ -5,7 +5,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "light"
   );
@@ -13,6 +13,14 @@ const Navbar = () => {
     user?.photoURL ||
     user?.reloadUserInfo?.photoUrl ||
     user?.providerData?.[0]?.photoURL;
+
+  const handleLogout = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Failed to log out:", error);
+    }
+  };
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
@@ -76,16 +84,26 @@ const Navbar = () => {
           {theme === "light" ? <FaMoon /> : <FaSun />}
         </button>
         {user && (
-          <div className="avatar">
-            <div className="w-10 rounded-full bg-base-200 flex items-center justify-center">
-              {userPhoto ? (
-                <img src={userPhoto} alt="User Avatar" />
-              ) : (
-                <span className="text-sm font-semibold">
-                  {user?.displayName?.[0]?.toUpperCase() || "U"}
-                </span>
-              )}
-            </div>
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full bg-base-200 flex items-center justify-center">
+                {userPhoto ? (
+                  <img src={userPhoto} alt="User Avatar" />
+                ) : (
+                  <span className="text-sm font-semibold">
+                    {user?.displayName?.[0]?.toUpperCase() || "U"}
+                  </span>
+                )}
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-36"
+            >
+              <li>
+                <button onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
           </div>
         )}
         {!user && (
