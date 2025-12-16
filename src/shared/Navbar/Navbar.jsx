@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import ProFastLogo from "../ProFastLogo/ProfastLogo";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { useAuth } from "../../hooks/useAuth";
 
 const Navbar = () => {
+  const { user } = useAuth();
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "light"
   );
-
+  const userPhoto =
+    user?.photoURL ||
+    user?.reloadUserInfo?.photoUrl ||
+    user?.providerData?.[0]?.photoURL;
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
@@ -70,9 +75,24 @@ const Navbar = () => {
         >
           {theme === "light" ? <FaMoon /> : <FaSun />}
         </button>
-        <a className="btn" href={"/login"}>
-          Login
-        </a>
+        {user && (
+          <div className="avatar">
+            <div className="w-10 rounded-full bg-base-200 flex items-center justify-center">
+              {userPhoto ? (
+                <img src={userPhoto} alt="User Avatar" />
+              ) : (
+                <span className="text-sm font-semibold">
+                  {user?.displayName?.[0]?.toUpperCase() || "U"}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+        {!user && (
+          <NavLink to="/login" className="btn btn-neutral">
+            Login
+          </NavLink>
+        )}
       </div>
     </div>
   );
